@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers: 
+    - name: nginx
+      image: nginx:1.27
+      command: 
+        - sleep
+        - 1d
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128M  
+      envFrom:
+        - configMapRef:
+            name: env-configmap
+      volumeMounts: 
+        - name: mount-vol
+          mountPath: /config
+  volumes: 
+    - name: mount-vol
+      configMap: 
+        name: env-configmap       

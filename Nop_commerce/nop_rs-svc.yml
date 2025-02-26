@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet 
+metadata:
+  name: nop-rs
+  labels:
+    author: venkatesh
+    org: qtdevops
+    project: Banking
+    app: nop
+    version: v1 
+spec:
+  minReadySeconds: 25
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nop 
+  template:
+    metadata: 
+      name: nop
+      labels:
+        app: nop
+        version: v1 
+    spec:
+      containers: 
+        - name: nop
+          image: venkeyboda/nopcommerce:1
+          resources:
+            requests:
+              cpu: 10m
+              memory: 100M
+            limits:
+              cpu: 300m
+              memory: 300M
+          ports: 
+            - name: nop-port
+              containerPort: 5000
+          startupProbe:
+            exec:
+              command:
+                - pwd
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3   
+          livenessProbe:
+            httpGet: 
+              path: /
+              port: 5000
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 5000     
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3      
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nop-svc
+spec: 
+  type: LoadBalancer
+  selector:
+    app: nop
+  ports:
+    - name: nop-port
+      port: 5000
+      targetPort: 5000
+      protocol: TCP  
+    
+
