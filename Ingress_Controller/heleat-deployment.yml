@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healet
+spec:
+  selector:
+    matchLabels:
+      app: healet
+  template:
+    metadata:
+      labels:
+        app: healet
+    spec:
+      containers:
+      - name: healet
+        image: venkeyboda/healet:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healet
+spec:
+  selector:
+    app: healet
+  ports:
+  - port: 80
+    targetPort: 80
+        

@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: website
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/game"
+            backend:
+              service:
+                name: game
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/healet"
+            backend:
+              service:
+                name: healet
+                port:
+                  number: 80          
+
