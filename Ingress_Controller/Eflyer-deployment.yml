@@ -2,20 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: healet
+  name: Eflyer
 spec:
   selector:
     matchLabels:
-      app: healet
+      app: Eflyer
   template:
     metadata:
       labels:
-        app: healet
+        app: Eflyer
     spec:
       containers:
-      - name: healet
-        image: venkeyboda/healet:v1
+      - name: Eflyer
+        image: venkeyboda/k8s-deploy:2.0
         resources:
+          requests:
+            memory: "100M"
+            cpu: "10m"  
           limits:
             memory: "128Mi"
             cpu: "500m"
@@ -26,10 +29,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: healet
+  name: Eflyer
 spec:
   selector:
-    app: healet
+    app: Eflyer
   ports:
   - port: 80
     targetPort: 80

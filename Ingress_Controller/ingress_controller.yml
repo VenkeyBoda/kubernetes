@@ -16,10 +16,11 @@ spec:
                 port:
                   number: 80
           - pathType: Prefix
-            path: "/healet"
+            path: "/temp"
             backend:
               service:
-                name: healet
+                name: Eflyer
                 port:
                   number: 80          
+
 
