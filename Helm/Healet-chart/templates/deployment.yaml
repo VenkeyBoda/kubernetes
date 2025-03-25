@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: {{ .Values.name}}
+  labels: {{ .Values.labels | toYaml | nindent 4 }}
+spec: {{ .Values.spec | toYaml | nindent 2}}
+  selector: 
+    matchLabels: {{ .Values.service.selector | toYaml | nindent 6 }}
+  template: 
+    metadata:
+      labels: {{ .Values.labels | toYaml | nindent 8 }}
+    spec: 
+      containers:
+        - name: {{ .Values.containers.name }}
+          image: {{ .Values.containers.image }}:{{ .Values.containers.tags }}
+          resources: {{ .Values.resources | toYaml | nindent 12}}
+          ports: {{ .Values.ports | toYaml | nindent 10 }}
