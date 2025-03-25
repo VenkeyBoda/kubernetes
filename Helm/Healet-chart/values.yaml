@@ -12,7 +12,7 @@ service:
   selector:
     app: healet
 serviceports:    
-  - Port: 80
+  - port: 80
     targetPort: 80
 containers:
   name: healet
